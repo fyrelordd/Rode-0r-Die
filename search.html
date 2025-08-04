@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Decision Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Merriweather&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Merriweather', serif;
+      background-color: #fff;
+      color: #1a1a1a;
+      height: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    }
+
+    .logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      position: relative;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #333;
+      transition: 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      margin: 4px 0;
+    }
+
+    .nav-links {
+      display: flex;
+    }
+
+    main {
+      margin: 3rem auto;
+      padding: 0 2rem;
+      flex: 1;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      margin-bottom: 1.5rem;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-family: inherit;
+      
+    }
+
+    .custom-select-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.custom-select-trigger {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.custom-options {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.custom-options div {
+  padding: 0.75rem;
+  cursor: pointer;
+}
+
+.custom-options div:hover {
+  background-color: #eee;
+}
+
+.custom-options.hidden {
+  display: none;
+}
+
+
+    .suggestions {
+      margin-top: -1rem;
+      margin-bottom: 1rem;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-height: 120px;
+      overflow-y: auto;
+      display: none;
+      position: relative;
+      z-index: 10;
+    }
+
+    .suggestions div {
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+
+    .suggestions div:hover {
+      background-color: #eee;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    button {
+      padding: 0.8rem;
+      background-color: #333;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #000;
+    }
+
+    footer {
+      background: #f5f5f5;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.95rem;
+      border-top: 1px solid #ddd;
+      color: #444;
+      margin-top: auto;
+    }
+
+    .reset-btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      background-color: transparent;
+      border: 1px solid #999;
+      color: #444;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      align-self: flex-end;
+    }
+
+    .reset-btn:hover {
+      background-color: #eee;
+    }
+    
+    @media (max-width: 739px) {
+  header {
+    flex-direction: row;
+    padding: 1.5rem 1.5rem;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 1.5rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+
+  .nav-links a {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+  main {
+    padding: 0 1rem;
+    margin: 2rem auto;
+    max-width: 95%;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    font-size: 1rem;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .custom-select-trigger,
+  .custom-options div {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .buttons button {
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
+
+  .reset-btn {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
+
+  footer {
+    font-size: 1rem;
+    padding: 2rem 1rem;
+  }
+}
+
+@media (min-width: 740px) and (max-width: 1024px) {
+  header {
+    padding: 2.5rem 3rem;
+  }
+
+  .logo {
+    font-size: 2.4rem;
+  }
+
+  nav a {
+    font-size: 1.3rem;
+    margin-left: 2.2rem;
+  }
+
+  main {
+    padding: 0 3rem;
+    margin-top: 4rem;
+    max-width: 95%;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 2.5rem;
+  }
+
+  label {
+    font-size: 1.3rem;
+    margin-bottom: 0.7rem;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 1.2rem;
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .custom-select-trigger,
+  .custom-options div {
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
+
+  .suggestions div {
+    font-size: 1.1rem;
+    padding: 0.9rem;
+  }
+
+  .buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .buttons button {
+    font-size: 1.2rem;
+    padding: 1rem 2.5rem;
+    flex: 1 1 30%;
+  }
+
+  .reset-btn {
+    font-size: 1.1rem;
+    padding: 0.6rem 1rem;
+    margin-top: 1rem;
+  }
+
+  footer {
+    font-size: 1.1rem;
+    padding: 2rem;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+ <!-- Shared Nav (place inside every page’s <body> header section) -->
+<header>
+  <div class="logo">Ride or Die</div>
+  <div class="hamburger">
+
+    <div></div><div></div><div></div>
+  </div>
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="project.html">Projects</a>
+  </nav>
+</header>
+
+
+  <main>
+    <h1>Choose Your Fate</h1>
+    <form id="searchForm">
+      <label for="name">Enter Your Name</label>
+      <input type="text" id="name" placeholder="Jon Snow" required />
+
+      <label for="house">Choose by House</label>
+     <div class="custom-select-wrapper">
+  <div class="custom-select-trigger">-- Select House --</div>
+  <div class="custom-options hidden" id="customOptions">
+    <div data-value="stark">House Stark</div>
+    <div data-value="lannister">House Lannister</div>
+    <div data-value="targaryen">House Targaryen</div>
+    <div data-value="baratheon">House Baratheon</div>
+    <div data-value="martell">House Martell</div>
+    <div data-value="hightower">House Hightower</div>
+  </div>
+</div>
+<input type="hidden" id="house" name="house" />
+
+
+      <label for="trait">Or Enter a Personality Trait</label>
+      <input type="text" id="trait" placeholder="Loyal, Ambitious, Cunning..." autocomplete="off" />
+      <div class="suggestions" id="suggestions"></div>
+      <p id="traitError" style="color: red; font-size: 0.9rem; display: none; margin-top: -1rem;"></p>
+
+
+      <div class="buttons">
+        <button type="submit">Reveal Protector</button>
+        <button type="button" onclick="goRandom()">Choose Randomly</button>
+        <button type="reset" class="reset-btn">Reset</button>
+      </div>
+    </form>
+  </main>
+
+  <footer>
+    &copy; 2025 fyrelordd | All Rights Reserved.
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nav.classList.toggle('show');
+    });
+
+
+
+    // Close nav on link click
+    document.querySelectorAll('#navLinks a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('show');
+      });
+    });
+
+    // Close nav when clicking outside
+    document.addEventListener('click', (e) => {
+      const clickedInside = nav.contains(e.target) || hamburger.contains(e.target);
+      if (!clickedInside && nav.classList.contains('show')) {
+        nav.classList.remove('show');
+      }
+    });
+  });
+
+
+
+  const customSelectTrigger = document.querySelector(".custom-select-trigger");
+const customOptions = document.getElementById("customOptions");
+const houseHiddenInput = document.getElementById("house");
+
+customSelectTrigger.addEventListener("click", () => {
+  customOptions.classList.toggle("hidden");
+});
+
+customOptions.querySelectorAll("div").forEach(option => {
+  option.addEventListener("click", () => {
+    const value = option.getAttribute("data-value");
+    const label = option.textContent;
+
+    houseHiddenInput.value = value;
+    customSelectTrigger.textContent = label;
+    customOptions.classList.add("hidden");
+
+    // Disable trait and random
+    traitInput.disabled = true;
+    randomBtn.disabled = true;
+  });
+});
+
+// Clicking outside closes dropdown
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".custom-select-wrapper")) {
+    customOptions.classList.add("hidden");
+  }
+});
+
+
+  const nameInput = document.getElementById("name");
+  const houseSelect = document.getElementById("house");
+  const traitInput = document.getElementById("trait");
+  const randomBtn = document.querySelector("button[onclick='goRandom()']");
+  const searchForm = document.getElementById("searchForm");
+  const suggestionsBox = document.getElementById("suggestions");
+
+  const traits = ["Loyal", "Ambitious", "Cruel", "Cunning", "Brave", "Honorable", "Strategic", "Ruthless", "Wise"];
+
+  // Trait input suggestion logic
+  traitInput.addEventListener("input", () => {
+    const traitError = document.getElementById("traitError");
+    // Always hide error while typing
+traitError.style.display = "none";
+traitError.textContent = "";
+
+
+    const input = traitInput.value.toLowerCase();
+    suggestionsBox.innerHTML = "";
+
+    if (!input) {
+      suggestionsBox.style.display = "none";
+      houseSelect.disabled = false;
+      randomBtn.disabled = false;
+      return;
+    }
+
+    const filtered = traits.filter(t => t.toLowerCase().startsWith(input));
+    if (filtered.length === 0) {
+      suggestionsBox.style.display = "none";
+      return;
+    }
+
+    filtered.forEach(trait => {
+      const div = document.createElement("div");
+      div.textContent = trait;
+      div.addEventListener("click", () => {
+        traitInput.value = trait;
+        suggestionsBox.style.display = "none";
+      });
+      suggestionsBox.appendChild(div);
+    });
+
+    suggestionsBox.style.display = "block";
+    houseSelect.disabled = true;
+    randomBtn.disabled = true;
+  });
+
+  // House/trait input toggle
+  houseSelect.addEventListener("change", () => {
+    if (houseSelect.value !== "") {
+      traitInput.disabled = true;
+      randomBtn.disabled = true;
+    } else {
+      traitInput.disabled = false;
+      randomBtn.disabled = false;
+    }
+  });
+
+  // ✅ Updated goRandom using reportValidity()
+  function goRandom() {
+    const name = nameInput.value.trim();
+
+    if (!name) {
+      nameInput.reportValidity(); // triggers native warning
+      return;
+    } 
+
+    sessionStorage.setItem("userName", name);
+    sessionStorage.setItem("selectionType", "random");
+    sessionStorage.setItem("selectionValue", "any");
+    window.location.href = "result.html";
+  }
+
+  // Reveal form submit logic
+  searchForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = nameInput.value.trim();
+    const house = houseHiddenInput.value;
+
+    const trait = traitInput.value.trim();
+    const traitError = document.getElementById("traitError");
+
+    traitError.style.display = "none";
+    traitError.textContent = "";
+
+    if (!name) {
+      nameInput.reportValidity(); // also use native warning here
+      return;
+    }
+
+    sessionStorage.setItem("userName", name);
+
+    if (house) {
+      sessionStorage.setItem("selectionType", "house");
+      sessionStorage.setItem("selectionValue", house);
+      window.location.href = "result.html";
+    } else if (trait) {
+      const isValidTrait = traits.some(t => t.toLowerCase() === trait.toLowerCase());
+      if (!isValidTrait) {
+        traitError.textContent = "Please enter a valid trait.";
+        traitError.style.display = "block";
+        return;
+      }
+      sessionStorage.setItem("selectionType", "trait");
+      sessionStorage.setItem("selectionValue", trait);
+      window.location.href = "result.html";
+    } else {
+      alert("Please choose a house, enter a trait, or select randomly.");
+    }
+  });
+
+  // Disable logic
+  const style = document.createElement("style");
+  style.innerHTML = `
+    input:disabled, select:disabled, button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Reset logic
+ searchForm.addEventListener("reset", () => {
+  suggestionsBox.style.display = "none";
+  traitInput.value = "";
+  houseHiddenInput.value = "";
+  customSelectTrigger.textContent = "-- Select House --";
+  traitInput.disabled = false;
+  houseHiddenInput.disabled = false;
+  randomBtn.disabled = false;
+});
+
+
+  // Refresh-safe toggles
+  window.addEventListener("pageshow", () => {
+    const house = houseHiddenInput.value;
+
+    const traitVal = traitInput.value.trim();
+
+    if (houseVal) {
+      traitInput.disabled = true;
+      randomBtn.disabled = true;
+    } else if (traitVal) {
+      houseSelect.disabled = true;
+      randomBtn.disabled = true;
+    }
+  });
+</script>
+
+</body>
+</html>

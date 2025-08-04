@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reveal Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: radial-gradient(ellipse at center, #2e1f13, #1a0f07);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Playfair Display', serif;
+      overflow: hidden;
+    }
+
+
+    
+    .card {
+      width: 340px;
+      background: linear-gradient(to bottom, #2e2b28, #1a1816);
+      border: 4px solid #a38760;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+     
+      color: #fdfaf3;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-image {
+      height: 220px;
+      background-color: #3b332b;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-image::before,
+    .card-image::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 30px;
+      background: linear-gradient(to right, #1a1816 0%, transparent 100%);
+      z-index: 1;
+    }
+
+    .card-image::after {
+      right: 0;
+      transform: rotateY(180deg);
+    }
+
+    .card-image::before {
+      left: 0;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      z-index: 0;
+    }
+
+    .fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 10s ease, transform 10s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+    .name-strip {
+      background-color: #a38760;
+      text-align: center;
+      padding: 0.7rem 1rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1e1207;
+      letter-spacing: 1px;
+      font-family: 'Cinzel', serif;
+      box-shadow: inset 0 -2px 4px rgba(0,0,0,0.2), inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .traits {
+      padding: 1rem;
+      background: #1c1a18;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #ddd3c1;
+    }
+
+    .traits p {
+      margin: 0.5rem 0;
+    }
+
+    .quote {
+      font-style: italic;
+      color: #c1a76f;
+      margin-top: 1rem;
+    }
+
+    .question {
+      background: #1e1b19;
+      color: #f1e6d0;
+      font-weight: 600;
+      text-align: center;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      border-top: 1px solid #444;
+      border-bottom: 1px solid #444;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-start;
+      padding: 0.8rem;
+    }
+
+    .btn {
+      background-color: #a38760;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      color: #1e1207;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      transition: background 0.3s ease;
+      
+    }
+
+    .btn:hover {
+      background-color: #8e724f;
+    }
+
+   
+@media (max-width: 355px) {
+
+  
+  .card {
+    width: 94%;
+    padding: 0.8rem;
+    box-shadow: 0;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  .house-name {
+    font-size: 1.05rem;
+    margin-bottom: 0.6rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .reveal-button {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+
+
+
+  </style>
+</head>
+<audio id="bgMusic" src="theme.mp3" autoplay></audio>
+
+<body>
+<div class="about-text fade-in">
+  <div class="card">
+    <div class="card-image">
+      <img id="card-img" src="" alt="Protector">
+    </div>
+
+    <div class="name-strip" id="card-name"></div>
+
+    <div class="traits">
+      <p><strong>Traits:</strong> <span id="card-traits"></span></p>
+      <p class="quote" id="card-quote">""</p>
+    </div>
+
+    <div class="question">
+      Will they ride with you or leave you to die when the going gets tough?
+    </div>
+
+    <div class="actions">
+     <button class="btn" onclick="window.location.href='search.html'">⬅ Back</button>
+
+      
+    </div>
+  </div>
+ </div>
+ <script>
+ 
+  
+  const charactersByHouse = {
+
+    targaryen: [
+
+      {
+        name: "Daenerys Targaryen",
+        house: "Targaryen",
+        traits: ["ambitious", "determined", "just"],
+        quote: "If I look back, I am lost.",
+        image: "mug_daenerys.jpg"
+      },
+     
+      {
+        name: "Rhaenyra Targaryen",
+        house: "Targaryen",
+        traits: ["temperamental", "stubborn", "ambitious"],
+        quote: "I had hoped that you were dead",
+        image: "mug_rhaenyra.jpeg"
+      },
+
+      {
+        name: "Aegon II Targaryen",
+        house: "Targaryen",
+        traits: ["hedonistic", "temperamental"],
+        quote: "After you. You are the elder.",
+        image: "mug_Aegon_II.png"
+      },
+  
+      {
+        name: "Visenya Targaryen",
+        house: "Targaryen",
+        traits: ["stern", "serious", "unforgiving"],
+        quote: "Your guards are slow and lazy.",
+        image: "mug_Visenyaa.jpg"
+      }
+
+    ], 
+
+    stark: [
+      {
+        name: "Eddard Stark",
+        house: "Stark",
+        traits: ["honorable", "dutiful", "just"],
+        quote: "The lone wolf dies, but the pack survives.",
+        image: "mug_ned.jpg"
+      },
+
+      {
+        name: "Catelyn Stark",
+        house: "Stark",
+        traits: ["protective", "honest", "resilient"],
+        quote: "A woman can rule as wisely as a man.",
+        image: "mug_ct.png"
+      },
+
+      {
+        name: "Lyanna Stark",
+        house: "Stark",
+        traits: ["fierce", "wild", "independent"],
+        quote: "Promise me, Ned.",
+        image: "mug_lysss.jpg"
+      },
+       
+      {
+        name: "Cregan Stark",
+        house: "Stark",
+        traits: ["stern", "formidable", "honorable"],
+        quote: "They died the day we marched, boy.",
+        image: "mug_cregan.jpg"
+      },
+
+      {
+        name: "Brandon Stark",
+        house: "Stark",
+        traits: ["wild", "gallant", "hot-blooded"],
+        quote: "A bloody sword is a beautiful thing.",
+        image: "mug_brandon.jpg"
+      },
+       
+    ],
+
+    lannister: [
+     
+      {
+        name: "Cersei Lannister",
+        house: "Lannister",
+        traits: ["willful", "ambitious", "arrogant"],
+        quote: "I am a lioness. I will not cringe for them.",
+        image: "mug-cersei.jpg"
+      },
+
+      {
+        name: "Jaime Lannister",
+        house: "Lannister",
+        traits: ["bold", "impulsive", "arrogant"],
+        quote: "There are no men like me. There's only me.",
+        image: "mug_jaime.jpg"
+      },
+      
+      {
+        name: "Gerion Lannister",
+        house: "Lannister",
+        traits: ["jovial", "reckless", "kind"],
+        quote: "Gerion made japes.",
+        image: "mug_gerion.jpg"
+      }  
+    ],
+
+    baratheon: [
+      {
+        name: "Robert Baratheon",
+        house: "Baratheon",
+        traits: ["charismatic", "fearless", "headstrong"],
+        quote: "A man who loved nothing better than war.",
+        image: "mug_robrha.jpg"
+      },
+
+      {
+        name: "Stannis Baratheon",
+        house: "Baratheon",
+        traits: ["serious", "stubborn", "dutiful"],
+        quote: "Great or small, we must do our duty.",
+        image: "mug_stannis.jpeg"
+      },
+
+      {
+        name: "Renly Baratheon",
+        house: "Baratheon",
+        traits: ["charismatic", "bold", "frivolous"],
+        quote: "Younger, bolder, and far more comely ...",
+        image: "mug_renly.jpg"
+      },
+
+       {
+        name: "Orys Baratheon",
+        house: "Baratheon",
+        traits: ["loyal", "fierce","vengeful"],
+        quote: "The King's Hand should have a hand.",
+        image: "mug_orys.jpg"
+      },
+       
+      {
+        name: "Lyonel Baratheon",
+        house: "Baratheon",
+        traits: ["charismatic", "honorable", "dutiful"],
+        quote: "Any knight can make a knight",
+        image: "mug_lyonel.jpg"
+      }
+      
+    ],
+
+    
+    hightower: [
+
+     
+      {
+        name: "Otto Hightower",
+        house: "Hightower",
+        traits: ["ambitious", "calculating", "proud"],
+        quote: "How could you be so blind?",
+        image: "otto.jpeg"
+      },
+      
+      {
+        name: "Ormund Hightower",
+        house: "Hightower",
+        traits: ["loyal", "honorable", "strategic"],
+        quote: "Oldtown must not fall.",
+        image: "mug_ormund.webp"
+      },
+      
+      {
+        name: "Alicent Hightower",
+        house: "Hightower",
+        traits: ["protective", "shrewd"],
+        quote: "All they have sowed, now shall they reap.",
+        image: "mug_alicent.jpg"
+      }
+    ],
+
+    martell: [
+
+      {
+        name: "Doran Martell",
+        house: "Martell",
+        traits: ["cautious", "pensive", "subtle"],
+        quote: "Only madmen fight wars they cannot win.",
+        image: "mug_dor.jpg"
+      },
+
+      {
+        name: "Arianne Martell",
+        house: "Martell",
+        traits: ["ambitious", "intuitive", "adventurous"],
+        quote: "I was a foolish willful girl.",
+        image: "Arianne.jpeg"
+      },
+      
+      {
+        name: "Meria Martell",
+        house: "Martell",
+        traits: ["proud", "resilient", "strategic"],
+        quote: "Dorne has no king. Tell your brother that.",
+        image: "mug_merie.jpg"
+      }
+    ]
+   
+  };
+
+  const charactersByTrait = {
+    loyal: [
+  {
+    name: "Arthur Dayne",
+    house: "Dayne",
+    traits: ["loyal", "honorable", "chivalrous"],
+    quote: "And now it begins.",
+    image: "mug_arthur.jpeg"
+  },
+ 
+  {
+    name: "Jory Cassel",
+    house: "Cassel",
+    traits: ["loyal", "trustworthy", "courageous"],
+    quote: "Jory kept his word.",
+    image: "mug_jory.jpg"
+  },
+
+  {
+    name: "Brienne of Tarth",
+    house: "Tarth",
+    traits: ["loyal", "brave", "determined"],
+    quote: "I will give up my life if need be.",
+    image: "mug_brienne.webp"
+  },
+ 
+ 
+  {
+    name: "Wyman Manderly",
+    house: "Manderly",
+    traits: ["loyal", "clever", "jovial"],
+    quote: "The north remembers, Lord Davos.",
+    image: "mug_wyman.jpg"
+  },
+ 
+  {
+    name: "Jon Connington",
+    house: "Connington",
+    traits: ["loyal", "proud", "impetuous"],
+    quote: "I tried to grasp a star, overreached, and fell.",
+    image: "mug_jon.webp"
+  },
+
+],
+
+ambitious: [
+ 
+  {
+    name: "Alester Florent",
+    house: "Florent",
+    traits: ["ambitious", "dignified", "courtly"],
+    quote: " I know you for a man of ambition.",
+    image: "mug_alester.jpg"
+  },
+
+  { 
+    name: "Theon Greyjoy",
+    house: "Greyjoy",
+    traits: ["ambitious","arrogant", "cocky"],
+    quote: "Grant me Casterly Rock for my own seat.",
+    image: "mug_theon.jpg"
+  },
+
+  {
+    name: "Corlys Velaryon",
+    house: "Velaryon",
+    traits: ["ambitious", "proud", "adventurous"],
+    quote: "He likes his boats better than he likes me.",
+    image: "mug_coryls.png"
+  },
+
+  {
+    name: "Steffon Fossoway",
+    house: "Fossoway",
+    traits: ["ambitious", "proud", "dishonorable"],
+    quote: "Lord Fossoway. I like the sound of that.",
+    image: "mug_steffon.jpg"
+  },
+ 
+  {
+    name: "Young Griff",
+    house: "Targaryen",
+    traits: ["ambitious", "impetuous", "charismatic"],
+    quote: "I am the only dragon you need.",
+    image: "mug_griff.png"
+  },
+  
+],
+
+cunning: [
+  {
+    name: "Roose Bolton",
+    house: "Bolton",
+    traits: ["cunning", "cold", "ruthless"],
+    quote: "I am not a man to be undone, ser.",
+    image: "roose.jpeg"
+  },
+
+  {
+    name: "Margaery Tyrell",
+    house: "Tyrell",
+    traits: ["cunning", "diplomatic", "astute"],
+    quote: "It's brave of you to warn me.",
+    image: "mug_mag.jpg"
+  },
+  
+  {
+    name: "Larys Strong",
+    house: "Strong",
+    traits: ["cunning", "ambitious", "ruthless"],
+    quote: "When was a wolf ever moved by words?",
+    image: "mug_larys.jpg"
+  },
+  
+  {
+    name: "Petyr Baelish",
+    house: "Baelish",
+    traits: ["cunning", "ambitious", "charismatic"],
+    quote: "Chaos isn’t a pit. Chaos is a ladder.",
+    image: "mug_lf.jpg"
+  }
+ 
+],
+
+brave: [
+
+  {
+    name: "Alysanne Blackwood",
+    house: "Targaryen",
+    traits: ["brave", "fierce", "independent"],
+    quote: "She smells of woodsmoke, not flowers.",
+    image: "mug_wood.webp"
+  },
+
+  {
+    name: "Jorah Mormont",
+    house: "Mormont",
+    traits: ["brave", "loyal"],
+    quote: "Horselord. Try me.",
+    image: "mug_jorah.jpg"
+  },
+
+  {
+    name: "Talbert Serry",
+    house: "Serry",
+    traits: ["brave", "courageous"],
+    quote: "And who are you, kraken?",
+    image: "mug_tal.webp"
+  },
+
+  {
+    name: "Loras Tyrell",
+    house: "Tyrell",
+    traits: ["brave", "proud", "impulsive"],
+    quote: "Give me the command, Your Grace.",
+    image: "mug_loras.jpg"
+  },
+ 
+],
+
+honorable: [
+
+  {
+    name: "Daemon I Blackfyre",
+    house: "Targaryen",
+    traits: ["honorable", "chivalrous", "charismatic"],
+    quote: "The King Who Bore the Sword.",
+    image: "mug_fyre.jpg"
+  }, 
+  
+  {
+    name: "Jon Snow",
+    house: "Stark",
+    traits: ["honorable", "loyal", "selfless"],
+    quote: "stick them with the pointy end.",
+    image: "jon.jpeg"
+  },
+
+  {
+    name: "Baelor Breakspear",
+    house: "Targaryen",
+    traits: ["honorable", "noble", "principled"],
+    quote: "I will take Ser Duncan's side.",
+    image: "mug_baelor.jpg"
+  },
+
+  {
+    name: "Barristan Selmy",
+    house: "Selmy",
+    traits: ["honorable", "loyal", "brave"],
+    quote: "Those were the king's words.",
+    image: "mug_selmy.jpg"
+  },
+ 
+  {
+    name: "Jeor Mormont",
+    house: "Mormont",
+    traits: ["honorable", "dutiful", "loyal"],
+    quote: "The things we love destroy us every time.",
+    image: "mug_joer.jpg"
+  },
+   
+],
+
+strategic: [
+
+  {
+    name: "Aegon the Conqueror",
+    house: "Targaryen ",
+    traits: ["strategic", "ambitious", "ruthless"],
+    quote: "When the sun sets, your line shall end.",
+    image: "mug_aegon.jpg"
+  },
+
+  {
+    name: "Robb Stark",
+    house: "Stark",
+    traits: ["strategic","brave", "courageous"],
+    quote: "Love's not always wise, I've learned.",
+    image: "mug_robb.jpg"
+  },
+
+  {
+    name: "Tywin Lannister",
+    house: "Lannister",
+    traits: ["strategic", "ambitious", "ruthless"],
+    quote: "Tywin Lannister was as much fox as lion.",
+    image: "mug_tywin.jpg"
+  },
+
+  {
+    name: "Olenna Tyrell",
+    house: "Tyrell",
+    traits: ["strategic", "sharp-tongued", "fearless"],
+    quote: "Hush, Alerie, don't take that tone with me.",
+    image: "mug_olenna.jpg"
+  },
+
+  {
+    name: "Rohanne Webber",
+    house: "Webber",
+    traits: ["strategic", "resilient"],
+    quote: "The woman has a spider's heart.",
+    image: "mug_roh.jpg"
+  }
+ 
+],
+
+ruthless: [
+  {
+    name: "Aemond Targaryen",
+    house: "Targaryen",
+    traits: ["ruthless", "bold", "ambitious"],
+    quote: "I may have lost an eye but I gained a dragon.",
+    image: "mug_aemond.jpeg"
+  },
+ 
+  {
+    name: "Sandor Clegane",
+    house: "Clegane",
+    traits: ["ruthless", "loyal", "cynical"],
+    quote: "I'm honest. It's the world that's awful.",
+    image: "mug_sandor.jpg"
+  },
+
+  {
+    name: "Euron Greyjoy",
+    house: "Greyjoy",
+    traits: ["ruthless", "cruel", "ambitious"],
+    quote: "I am the storm, my lord.",
+    image: "mug_euron.jpg"
+  },
+      
+  {
+    name: "Gerold Dayne",
+    house: "Dayne",
+    traits: ["ruthless", "cruel", "ambitious"],
+    quote: "Men call me Darkstar, and I am of the night.",
+    image: "mug_dark.jpg"
+  },
+
+],
+
+wise: [
+
+  {
+    name: "Daeron II Targaryen",
+    house: "Targaryen",
+    traits: ["wise", "just", "kind"],
+    quote: "He was a good king, everybody says so.",
+    image: "mug_dae.jpg"
+  },
+
+  {
+    name: "Jaehaerys I Targaryen",
+    house: "Targaryen",
+    traits: ["wise", "diplomatic", "decisive"],
+    quote: "His Grace was a wiser man than that.",
+    image: "mug_jae.webp"
+  },
+
+  {
+    name: "Maester Aemon",
+    house: "Targaryen (Night’s Watch)",
+    traits: ["wise", "honorable", "loyal"],
+    quote: "Kill the boy, and let the man be born.",
+    image: "mug_ae.jpg"
+  },
+  
+   {
+    name: "Jon Arryn",
+    house: "Arryn",
+    traits: ["wise","honorable", "just"],
+    quote: "Jon Arryn was a wise man and a good Hand.",
+    image: "mug_arryn.jpg"
+  },
+
+  {
+    name: "Samwell Tarly",
+    house: "Tarly",
+    traits: ["wise", "timid", "observant"],
+    quote: "They call me Sam the Slayer.",
+    image: "mug_sam.webp"
+  }
+
+],
+
+
+
+cruel: [
+
+
+ {
+    name: "Edwyn Frey",
+    house: "Frey",
+    traits: ["cruel","cold", "hateful"],
+    quote: "Once Ser Brynden dies, Riverrun is ours.",
+    image: "mug_ed.webp"
+  },
+
+   {
+    name: "Ramsay Bolton",
+    house: "Bolton",
+    traits: ["cruel", "cunning", "sadistic"],
+    quote: "But this one seems a beast in human skin.",
+    image: "mug_ramsay.jpeg"
+  },
+
+  {
+    name: "Maegor the Cruel",
+    house: "Targaryen",
+    traits: ["cruel", "ruthless", "uncompromising"],
+    quote: "What demon possessed him none could say.",
+    image: "mug_maegor.jpeg"
+  },
+
+  {
+    name: "Joffrey Baratheon",
+    house: "Bolton",
+    traits: ["cruel", "arrogant", "sadistic"],
+    quote: "Ser Ilyn, bring me his head!",
+    image: "mug_joff.jpg"
+  },
+ 
+  {
+    name: "Gregor Clegane",
+    house: "Clegane",
+    traits: ["cruel", "violent", "ruthless"],
+    quote: "The man is an anointed knight.",
+    image: "mug_gregor.jpeg"
+  }
+     
+],
+
+
+    // Add more traits...
+  };
+
+  const randomPool = [
+
+    
+    {
+      name: "Illyrio Mopatis",
+      house: "",
+      traits: ["ambiguous", "ambitious", "ruthless"],
+      quote: "Black or red, a dragon is still a dragon.",
+      image: "mug_ily.jpg"
+    },
+
+    {
+      name: "Varys",
+      house: "",
+      traits: ["manipulative", "deceptive", "loyal"],
+      quote: "No. I am what I am.",
+      image: "mug_varys.webp"
+    },
+
+   
+
+    {
+    name: "Ser Duncan the Tall",
+    house: "None (Hedge Knight)",
+    traits: ["humble", "loyal", "brave"],
+    quote: "I have no need of a squire.",
+    image: "mug_dunk.png"
+  },
+
+  
+  {
+    name: "Syrio Forel",
+    house: "None (Braavos)",
+    traits: ["charismatic", "Courageous", "observant"],
+    quote: "Boy, girl. You are a sword, that is all.",
+    image: "mug_syr.jpg"
+  },
+
+     {
+    name: "Dacey Mormont",
+    house: "Mormont",
+    traits: ["loyal","fierce", "graceful"],
+    quote: "I have fought beside the Young Wolf.",
+    image: "mug_dacey.jpg"
+  },
+
+    {
+      name: "Bronn",
+      house: "None",
+      traits: ["cunning", "pragmatic", "ruthless"],
+      quote: "Without question? No. I'd ask how much.",
+      image: "mug_bronn.jpg"
+    },
+
+
+   {
+    name: "Elissa Farman",
+    house: "Farman",
+    traits: ["ambitious", "brave", "strategic"],
+    quote: "But with his sister, Lady Elissa.",
+    image: "mug_elissa.jpeg"
+  },
+
+   {
+    name: "Criston Cole",
+    house: "Cole",
+    traits: ["dutiful", "strategic"],
+    quote: "One of me against the three of you.",
+    image: "mug_cole.webp"
+   },
+
+    {
+      name: "Melisandre",
+      house: "None",
+      traits: ["cunning", "mysterious", "powerful"],
+      quote: "The night is dark and full of terrors.",
+      image: "mug_mel.jpg"
+    },
+   
+   {
+      name: "Quaithe",
+      house: "",
+      traits: ["cryptic", "quiet"],
+      quote: "To go north, you must journey south.",
+      image: "mug_qu.jpeg"
+    }, 
+   
+ {
+    name: "Victarion Greyjoy",
+    house: "Greyjoy",
+    traits: ["loyal", "dutiful", "simple"],
+    quote: "Two gods are with me now.",
+    image: "mug_vic.webp"
+  },
+
+  {
+      name: "Lady Stoneheart",
+      house: "Dead",
+      traits: ["cold", "vengeful", "ruthless"],
+      quote: "Hang them.",
+      image: "mug_stone.jpg"
+    },
+     
+ {
+      name: "Sandoq the Shadow",
+      house: "",
+      traits: ["loyal", "menacing", "mute"],
+      quote: "But he hears and he obeys.",
+      image: "mug_sandoq.jpg"
+    },
+
+    
+{
+    name: "Daario Naharis",
+    house: "None (Sellsword)",
+    traits: ["faithless", "brutal", "greedy"],
+    quote: "I live and die at your command, fair queen.",
+    image: "mug_daario.jpg"
+  },
+    
+    
+    {
+      name: "Ellaria Sand",
+      house: "Martell",
+      traits: ["loyal", "strong", "passionate"],
+      quote: "I saw your father die.",
+      image: "sand.jpeg"
+    },
+ 
+    {
+      name: "Maege Mormont",
+      house: "Mormont",
+      traits: ["loyal","stubborn", "willful"],
+      quote: "Maege is a hoary old snark.",
+      image: "mug_mage.jpg"
+    },
+
+    {
+      name: "Alys Rivers",
+      house: "",
+      traits: ["mysterious","alluring", "shrewd"],
+      quote: "I have the dragon's bastard in me",
+      image: "mug_alys.png"
+    },
+
+    {
+      name: "Aeron Greyjoy",
+      house: "Greyjoy",
+      traits: ["religious", "humorless", "resolute"],
+      quote: "What is dead may never die.",
+      image: "mug_aeron.jpg"
+    },
+
+    {
+      name: "Asha Greyjoy",
+      house: "Greyjoy",
+      traits: ["loyal", "bold", "defiant"],
+      quote: "I have the best claim.",
+      image: "mug_asha.jpg"
+    },
+
+   
+    {
+      name: "Salladhor Saan",
+      house: "",
+      traits: ["shrewd", "witty", "opportunistic"],
+      quote: "Can Salladhor Saan eat the king's word?",
+      image: "mug_saan.jpg"
+    },
+
+    
+   
+  
+
+    
+  ];
+
+  // Get selection from sessionStorage
+  const selectionType = sessionStorage.getItem("selectionType");
+  const selectionValue = sessionStorage.getItem("selectionValue");
+
+  
+
+  let chosenCharacter = null;
+
+  if (selectionType === "house") {
+    const house = selectionValue.toLowerCase();
+    const pool = charactersByHouse[house];
+    if (pool && pool.length > 0) {
+      chosenCharacter = pool[Math.floor(Math.random() * pool.length)];
+    }
+  } else if (selectionType === "trait") {
+    const trait = selectionValue.toLowerCase();
+    const pool = charactersByTrait[trait];
+    if (pool && pool.length > 0) {
+      chosenCharacter = pool[Math.floor(Math.random() * pool.length)];
+    }
+  } else if (selectionType === "random") {
+    chosenCharacter = randomPool[Math.floor(Math.random() * randomPool.length)];
+  }
+
+  if (!chosenCharacter) {
+    // fallback
+    chosenCharacter = {
+      name: "Unknown Protector",
+      house: "Unknown",
+      traits: [],
+      quote: "The gods were silent this time.",
+      image: "images/default.jpg"
+    };
+  }
+
+  // Store or render the result
+  sessionStorage.setItem("chosenCharacter", JSON.stringify(chosenCharacter));
+
+  // Update the page visually (example, you can customize this)
+  document.addEventListener("DOMContentLoaded", () => {
+   const nameEl = document.getElementById("card-name");
+const imageEl = document.getElementById("card-img");
+const traitsEl = document.getElementById("card-traits");
+const quoteEl = document.getElementById("card-quote");
+
+
+    nameEl.textContent = chosenCharacter.name;
+    imageEl.src = chosenCharacter.image;
+    traitsEl.textContent = chosenCharacter.traits.join(", ");
+    quoteEl.textContent = `"${chosenCharacter.quote}"`;
+  });
+
+  // Resume ambient audio from saved time
+  const audio = document.getElementById("bgMusic");
+  const savedTime = parseFloat(localStorage.getItem("audioTime"));
+  if (!isNaN(savedTime)) {
+    audio.currentTime = savedTime;
+  }
+
+  audio.play().catch((err) => {
+    console.warn("Autoplay failed:", err);
+  });
+
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target); // only fade in once
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    document.querySelectorAll(".fade-in").forEach(el => {
+      observer.observe(el);
+    });
+  });
+
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Westeros: Ride or Die</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Merriweather&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Merriweather', serif;
+      background-color: #fff;
+      color: #1a1a1a;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    } 
+
+    .logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      position: relative;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #333;
+      transition: 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      margin: 4px 0;
+    }
+
+    .nav-links {
+      display: flex;
+    }
+
+    main {
+      flex: 1;
+      text-align: center;
+      padding: 5rem 2rem;
+      animation: fadeIn 1.5s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .main-logo {
+      font-size: 3rem;
+      color: #333;
+      letter-spacing: 1.2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .sub-logo {
+      font-size: 1.4rem;
+      color: #666;
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    
+    .story-line {
+  position: relative;
+  min-height: 140px;
+  max-width: 700px;
+  margin: auto;
+  margin-bottom: 2rem;
+  font-style: italic;
+  color: #555;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: opacity 1.5s ease;
+}
+
+.story-line-content {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.story-line-content.show {
+  opacity: 1;
+}
+
+.story-line strong {
+  display: block;
+  font-size: 1.3rem;
+  color: #222;
+  margin-bottom: 0.4rem;
+}
+
+    .cta-button {
+      background: #333;
+      border: none;
+      padding: 0.8rem 2rem;
+      color: #fff;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: pulse 6s infinite ease-in-out;
+    }
+
+   
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0px rgba(0,0,0,0); }
+      50% { box-shadow: 0 0 15px rgba(0,0,0,0.3); }
+    }
+
+    .cta-button:hover {
+      background: #000;
+    }
+
+    .hook-text {
+      font-size: 1rem;
+      color: #777;
+      font-style: italic;
+      margin-top: 1rem;
+    }
+
+    .fantasy-quote {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: #999;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      margin-top: 1.5rem;
+      min-height: 1.2em;
+    }
+
+    footer {
+      background: #f5f5f5;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.95rem;
+      border-top: 1px solid #ddd;
+      color: #444;
+      font-family: 'Merriweather', serif;
+      margin-top: auto;
+    }
+
+    /* Mobile Media Query */
+    /* Mobile Media Query: Up to 739px */
+@media (max-width: 739px) {
+  header {
+    flex-direction: row;
+    padding: 1.5rem 1.5rem;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 1.5rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+
+  .nav-links a {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .main-logo {
+    font-size: 2.4rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .sub-logo {
+    font-size: 1.2rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .story-line {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    padding: 0 1rem;
+    max-width: 90%;
+    margin-bottom: 2.5rem;
+  }
+
+  .story-line strong {
+    font-size: 1.4rem;
+  }
+
+  .cta-button {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    margin-top: 2.5rem;
+  }
+
+  .hook-text {
+    font-size: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .fantasy-quote {
+    font-size: 1rem;
+    margin-top: 2rem;
+  }
+
+  footer {
+    padding: 2rem 1rem;
+    font-size: 1rem;
+  } 
+} 
+   
+
+    /* Tablet Media Query: 740px to 1024px */
+
+    @media (min-width: 740px) and (max-width: 1024px) {
+  header {
+    padding: 2.5rem 3rem;
+  }
+
+  .logo {
+    font-size: 2.4rem;
+  }
+
+  nav a {
+    font-size: 1.3rem;
+    margin-left: 2rem;
+  }
+
+  .main-logo {
+    font-size: 4.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .sub-logo {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .story-line {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    max-width: 85%;
+    margin-bottom: 3rem;
+  }
+
+  .story-line strong {
+    font-size: 1.6rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .cta-button {
+    font-size: 1.3rem;
+    padding: 1.2rem 2.5rem;
+    margin-top: 3rem;
+  }
+
+  .hook-text {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+  }
+
+  .fantasy-quote {
+    font-size: 1.2rem;
+    margin-top: 2.2rem;
+  }
+
+  footer {
+    padding: 2rem;
+    font-size: 1.1rem;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">Ride or Die</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="project.html">Projects</a>
+    </nav>
+  </header>
+
+  <main id="mainContent">
+    <h1 class="main-logo">Westeros: Ride or Die</h1>
+    <h2 class="sub-logo">One choice. One fate</h2>
+    <div class="story-line">
+  <div class="story-line-content" id="scrollText"></div>
+</div>
+
+    
+    <button class="cta-button" onclick="transitionToPage()">Begin Your Journey</button>
+    
+    <p class="hook-text">Who stands beside you when Westeros burns?</p>
+    <p class="fantasy-quote" id="fantasyQuote"></p>
+  </main>
+
+  <footer>
+    &copy; 2025 fyrelordd | All Rights Reserved.
+  </footer>
+
+  <script>
+    const messages = [
+      { title: "What is this?", body: "In the chaos of Westeros, everyone needs someone who’ll stand and fight beside them. A Ride or Die." },
+      { title: "How does it work?", body: "Enter your name. Choose a house, a trait… or tempt fate. The realm will assign your Ride or Die." },
+      { title: "But be warned...", body: "Some fight. Some flee. Some betray. The question is: Will they stay or leave you to die?" }
+    ];
+  const quotes = [
+      "When you play the game of thrones, you win or you die",
+      "Never forget what you are, for surely the world will not",
+      "A mind needs books as a sword needs a whetstone, if it is to keep its edge",
+      "Choosing … it has always hurt. And always will",
+      "Times may change, but men do not",
+      "Black and white and grey, all the shades of truth",
+      "When the snows fall and the white winds blow, the lone wolf dies, but the pack survives",
+      "Valar morghulis",
+      "Hodor",
+      "I am the ghost in Harrenhal",
+      "Death is so terribly final, while life is full of possibilities",
+      "Fear is what keeps a man alive in this world of treachery and deceit",
+      "You’re too fat for your armor, Robert",
+      "Under the sea, the fish eat us. I know, I know, oh, oh, oh",
+      "The Lannisters took what was offered",
+      "I am the sword in the darkness",
+      "What is dead may never die, but rises again, harder and stronger",
+      "Rhaegar fought valiantly, Rhaegar fought nobly, Rhaegar fought honorably. And Rhaegar died",
+      "Can a man still be brave if he’s afraid?",
+      "The things I do for love",
+      "That’s no law, just a sword. Happens I got one, too",
+      "Lord Tywin Lannister did not, in the end, shit gold",
+      "The Iron Throne is mine by rights. All those who deny that are my foes",
+      "Oak and iron guard me well, or else I’m dead and doomed to hell",
+      "There is no creature on earth half so terrifying as a truly just man",
+      "Those are brave men. Let’s go kill them",
+      "Valor is a poor substitute for numbers",
+      "You may well have the better claim, but I have the larger army",
+      "Sharp steel and strong arms rule this world, don’t ever believe any different",
+      "There’s nothing half so mortal as a grey goose feather",
+      "From Ib to Asshai, when men see my sails, they pray",
+      "In the dark, I am the Knight of Flowers",
+      "A girl should be bloody too. This is her work",
+      "Vengeance. Justice. Fire and Blood",
+      "Why is it always the innocents who suffer most, when you high lords play your game of thrones?",
+      "It’s north he should be taking his swords. North, not south. You hear me?",
+      "The king eats, they say and the Hand takes the shit",
+      "Winter is Coming",
+      "Some battles are won with swords and spears, others with quills and ravens",
+      "And any man who must say ‘I am the king’ is no true king at all",
+      "You cannot eat love, nor buy a horse with it, nor warm your halls on a cold night",
+      "Dreams are what we have",
+      "A reader lives a thousand lives before he dies. The man who never reads lives only one",
+      "I shall wear this as a badge of honor",
+      "I seldom fling children from towers to improve their health",
+      "He has a song. He is the prince that was promised, and his is the song of ice and fire",
+      "You raped her. You murdered her. You killed her children",
+      "The more you give a king, the more he wants",
+      "A ruler who hides behind paid executioners soon forgets what death is",
+      "I have been called many things, my lord, but kind is seldom one of them",
+      
+      "Get out. Monster, monster, get out, get out, GET OUT!",
+      "You have lived too long, nuncle",
+      "An eye for an eye, a son for a son. Lucerys shall be avenged",
+      "What did Viserys ever have that she did not? A little sausage?",
+      "A dragon in one's courtyard does wonders to resolve one's doubts",
+      "Kill them! Kill them!",
+      "The rats play when the cat is gone, but my son Aemond will return with fire and blood",
+      "I rose too high, loved too hard, dared too much. I tried to grasp a star, overreached, and fell",
+      "You know I have no other woman. Only... duty",
+      "If I am ever a queen, I'll make them love me",
+      "I ... I wanted to be one of them ...",
+      "High in the halls of the kings who are gone, Jenny would dance with her ghosts ...",
+      "If half of an onion is black with rot, it is a rotten onion. A man is good, or he is evil",
+      "Azor Ahai shall be born again amidst smoke and salt to wake dragons out of stone",
+      "It is known",
+      "What is this brief, mortal life, if not the pursuit of legacy?",
+      "Have you never imagined yourself on the Iron Throne?",
+      "Men would sooner put the realm to the torch... than see a woman ascend the Iron Throne",
+      "In this world of men, we women must band together",
+      "I am guilty of being a dwarf, I confess it",
+      "A ruler needs a good head and a true heart",
+      "I fed my last husband to my dragon. If you make me take another, I may eat him myself",
+      "The seeds of war are oft planted during times of peace",
+      "The Iron Throne will go to the man who has the strength to seize it",
+      "Thrones are won with swords, not quills. Spill blood, not ink",
+      "Let no man think that the fire of the Targaryens did not burn in his veins",
+      "If they search the seven hells, mayhaps",
+      "But I would sooner fight a dozen battles than do what you’ve just done",
+      "When the gods are silent, lords and kings will make themselves heard",
+      "I do not have the time for tears",
+      "Pride goes before a fall",
+      "Once a turncloak, ever a turncloak",
+      "Familiarity is the father of acceptance",
+      
+
+
+      "And the crow once called the raven black",
+      "How many eyes does Lord Bloodraven have? A thousand eyes and one",
+      "Some words are wind, ser. Some are treason",
+      "Pain was as much a part of knighthood as were swords and shields",
+      "Better a beggar than a thief",
+      "Even a hedge knight has his honor",
+      "We are one. Man, horse, lance, we are one beast of blood and wood and iron",
+      "Why give a horse to a man who cannot ride?",
+      "Would you rather die with honor intact or live with it besmirched?",
+      "An honorable death is well and good, but if the life at stake is not your own, what then?",
+      "Every boy dreams of serving in the Kingsguard",
+      "I am Thunder and Thunder is me, we are one beast, we are joined, we are one",
+      "A hedge knight must hold tight to his pride. Without it, he was no more than a sellsword",
+      "Dracarys"
+    ];
+
+    let msgIndex = 0;
+    let lastQuoteIndex = -1;
+
+    const scrollText = document.getElementById('scrollText');
+    const quoteBox = document.getElementById('fantasyQuote');
+
+   function showNextMessage() {
+  const { title, body } = messages[msgIndex];
+  scrollText.classList.remove('show');
+
+  setTimeout(() => {
+    scrollText.innerHTML = `<strong>${title}</strong><p>${body}</p>`;
+    scrollText.classList.add('show');
+    msgIndex = (msgIndex + 1) % messages.length;
+  }, 500);
+}
+
+   
+
+function showNextQuote() {
+  quoteBox.style.opacity = 0;
+  setTimeout(() => {
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * quotes.length);
+    } while (randomIndex === lastQuoteIndex);
+
+    lastQuoteIndex = randomIndex;
+    quoteBox.textContent = `“${quotes[randomIndex]}”`;
+    quoteBox.style.opacity = 1;
+  }, 700);
+}
+
+
+    function transitionToPage() {
+      window.location.href = 'search.html';
+    }
+
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      nav.classList.toggle('show');
+    }
+
+    // ✅ Close mobile nav menu on link click
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('#navLinks a').forEach(link => {
+        link.addEventListener('click', () => {
+          document.getElementById('navLinks').classList.remove('show');
+        });
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+  const nav = document.getElementById('navLinks');
+  const hamburger = document.querySelector('.hamburger');
+
+  const clickedInsideNav = nav.contains(e.target) || hamburger.contains(e.target);
+
+  if (!clickedInsideNav && nav.classList.contains('show')) {
+    nav.classList.remove('show');
+  }
+});
+
+
+    showNextMessage();
+    showNextQuote();
+    setInterval(showNextMessage, 6000);
+    setInterval(showNextQuote, 7000);
+  </script>
+</body>
+</html>

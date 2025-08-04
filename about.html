@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Merriweather&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Merriweather', serif;
+      background-color: #fff;
+      color: #1a1a1a;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    }
+
+    .logo { 
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      position: relative;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #333;
+      transition: 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      margin: 4px 0;
+    }
+
+    .nav-links {
+      display: flex;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.4rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: #444;
+    }
+
+    footer {
+      background: #f5f5f5;
+      text-align: center;
+      padding: 1.2rem 1rem;
+      font-size: 0.95rem;
+      border-top: 1px solid #ddd;
+      color: #444;
+      font-family: 'Merriweather', serif;
+    }
+
+    /* ===== MEDIA QUERY FOR SMALLER SCREENS ===== */
+   @media (max-width: 739px) {
+  header {
+    flex-direction: row;
+    padding: 1.5rem 1.5rem;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 1.5rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+
+  .nav-links a {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  main {
+    padding: 0 1rem;
+    margin: 2rem auto;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.3rem !important;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  blockquote {
+    font-size: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  footer {
+    font-size: 0.9rem;
+    padding: 1.2rem 1rem;
+  }
+
+  div[style*="padding: 1rem 1.5rem;"] {
+    font-size: 0.95rem;
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 740px) and (max-width: 1024px) {
+  header {
+    padding: 2.5rem 3rem;
+  }
+
+  .logo {
+    font-size: 2.5rem;
+  }
+
+  nav a {
+    font-size: 1.3rem;
+    margin-left: 2rem;
+  }
+
+  main {
+    max-width: 1000px;
+    padding: 0 3rem;
+    margin: 4rem auto;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.8rem !important;
+    margin-top: 3rem !important;
+  }
+
+  p {
+    font-size: 1.4rem;
+    line-height: 2;
+    margin-bottom: 2rem;
+  }
+
+  blockquote {
+    font-size: 1.3rem;
+    margin: 3rem 0;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    line-height: 1.8;
+  }
+
+  div[style*="padding: 1rem 1.5rem;"] {
+    font-size: 1.3rem;
+    padding: 2rem 2.5rem;
+    line-height: 1.9;
+  }
+
+  footer {
+    font-size: 1.1rem;
+    padding: 2rem 1.5rem;
+  }
+}
+
+
+   
+
+  </style>
+</head>
+<body>
+
+  <!-- Shared Nav (place inside every page’s <body> header section) -->
+<header>
+  <div class="logo">Ride or Die</div>
+  <div class="hamburger">
+
+    <div></div><div></div><div></div>
+  </div>
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="project.html">Projects</a>
+  </nav>
+</header>
+
+
+
+
+  <main>
+ <h1>About This Site</h1>
+
+  <h2 style="margin-top: 2rem; font-size: 1.4rem; color:#222;">What Is This?</h2>
+  <p><strong>Westeros: Ride or Die</strong> is an interactive experience that assigns you a character from the world of game of Thrones... someone who might stand beside you when the realm burns or walk away when you need them the most.</p>
+
+  <p>From loyal wolves to cunning lions, this project explores the grey morality that makes Westeros iconic. Your match might stand with you to the end or disappear when winter truly comes.</p>
+
+  <blockquote style="font-style: italic; color: #666; margin: 2rem 0;">
+    “In the game of thrones, loyalty is a luxury few can afford.”
+  </blockquote>
+
+  <h2 style="margin-top: 2rem; font-size: 1.4rem; color:#222;">How It Works</h2>
+  <p>On the decision page, entering your name is essential. After which you are required to choose your fate either by House, Personality, or by a Random Selection. Six houses have been featured in the "House" section with 3 - 5 characters from each House. </p>
+  <p>The Personality section comprises of nine different Personalities or Traits with the featured characters ranging from 3 - 5 for each, while the Random Selection consists of 20 featured characters.
+</p>
+
+  <p>The House section is strictly made up of the characters from the mentioned house, the Personality section comprises of both the characters from "House" section and a few other noble houses across Westeros.</p> <p> The Random section, however comprises of a mix of characters from the noble houses and a handful of a others like sellswords, hedge knights etc ranging from the Seven Kingdoms to Essos and beyond.</p>
+
+  <p>The featured "Traits or Personality" are : Ambitious, Brave, Cruel, Cunning, Honorable, Loyal, Ruthless, Strategic, and Wise.</p> 
+
+  <h2 style="margin-top: 2rem; font-size: 1.4rem; color:#222;">Why I Built This</h2>
+  <div style="background:#f7f7f7; padding: 1rem 1.5rem; border-left: 4px solid #bbb; margin-top: 1rem; margin-bottom: 2rem;">
+    <strong>Developer's Note:</strong>  
+     This project sharpened my frontend skills. From building responsive multi-page layouts and smooth animations to structuring scalable UI logic. I especially enjoyed working on this since it was built around a topic I enjoy.
+
+  </div>
+
+  <h2 style="margin-top: 2rem; font-size: 1.4rem; color:#222;">What's Next?</h2>
+  <p>Depends. As of now, I intend on turning my full attention to backend Web development. I currently have no intention of building another site, but it is my hope that as I go deeper into my studies, I'll have new ideas and inspiration for better projects to work on.</p>
+</main>
+
+ <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation(); // prevent this click from triggering the document click event
+      nav.classList.toggle('show');
+    });
+
+    // Close nav when clicking a nav link
+    document.querySelectorAll('#navLinks a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('show');
+      });
+    });
+
+    // Close nav when clicking outside
+    document.addEventListener('click', (e) => {
+      const clickedInside = nav.contains(e.target) || hamburger.contains(e.target);
+      if (!clickedInside && nav.classList.contains('show')) {
+        nav.classList.remove('show');
+      }
+    });
+  });
+</script>
+
+
+</body>
+</html>

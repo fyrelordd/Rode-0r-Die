@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Showcase</title>
+  <style>
+    * {
+      box-sizing: border-box;
+        overflow-x: hidden
+    }
+
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #fdfdfd, #f1f5f9);
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+
+
+    .main-header {
+      text-align: center;
+      font-size: 34px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .quote {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 50px;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .left,
+    .right {
+      flex: 1;
+    }
+
+    .screenshot-box {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .screenshot-box img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .screenshot-box:hover {
+      transform: scale(1.02);
+    }
+
+    .link-box {
+      display: inline-block;
+      padding: 12px 18px;
+      background-color: #0056b3;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .link-box:hover {
+      background-color: #004195;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #222;
+    }
+
+    .project-meta {
+      font-size: 14px;
+      color: #999;
+      margin-bottom: 15px;
+    }
+
+    .project-description {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .project-points {
+      padding-left: 20px;
+      color: #444;
+    }
+
+    .project-points li {
+      margin-bottom: 10px;
+    }
+
+    .tech-stack {
+      margin-top: 20px;
+      font-size: 15px;
+      color: #444;
+    }
+
+    .tech-stack strong {
+      color: #222;
+    }
+
+    blockquote {
+      background: #f9f9f9;
+      padding: 16px 20px;
+      border-left: 4px solid #ccc;
+      margin-top: 30px;
+      font-style: italic;
+      color: #444;
+    }
+
+    blockquote small {
+      display: block;
+      margin-top: 8px;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .back-button {
+  display: inline-block;
+  margin-bottom: 30px; 
+  padding: 8px 16px;
+  background-color: #e0e0e0; 
+  color: #333;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+.back-button:hover {
+  background-color: #d0d0d0;
+}
+
+
+    @media (max-width: 739px) {
+      .content {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .main-header {
+        font-size: 28px;
+        margin-bottom: 6px;
+      }
+
+      .quote {
+        font-size: 14px;
+        margin-bottom: 40px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
+
+      .project-description {
+        font-size: 15px;
+      }
+    }
+
+    @media (min-width: 740px) and (max-width: 1024px) {
+  body {
+    padding: 60px 40px;
+  }
+
+  .main-header {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .quote {
+    font-size: 1.4rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .content {
+    gap: 50px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-meta {
+    font-size: 1.2rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .project-description {
+    font-size: 1.3rem;
+    line-height: 1.9;
+    margin-bottom: 2rem;
+  }
+
+  .project-points {
+    font-size: 1.2rem;
+  }
+
+  .project-points li {
+    margin-bottom: 1.2rem;
+  }
+
+  .tech-stack {
+    font-size: 1.2rem;
+    margin-top: 2.2rem;
+  }
+
+  .link-box {
+    font-size: 1.1rem;
+    padding: 14px 22px;
+  }
+
+  blockquote {
+    font-size: 1.2rem;
+    padding: 20px 24px;
+    margin-top: 3.5rem;
+  }
+
+  blockquote small {
+    font-size: 1rem;
+  }
+
+  .back-button {
+    font-size: 1rem;
+    padding: 10px 18px;
+    margin-bottom: 2.5rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <main class="container">
+
+    <a href="index.html" class="back-button">Home</a>
+
+
+    <!-- Main Title + Quote -->
+    <h1 class="main-header">Game of Thrones Quiz</h1>
+    <p class="quote">“Built this as a fun project but also to explore real-world form validation and responsive layouts.”</p>
+
+    <!-- Content Layout -->
+    <div class="content">
+      
+      <!-- Left Section -->
+      <div class="left">
+        <div class="screenshot-box">
+          <img src="./baratheon.jpg" alt="Project Screenshot" />
+        </div>
+        <a href="https://fyrelordd.github.io/Game-of-Thrones/" class="link-box" target="_blank">Visit Project ↗</a>
+      </div>
+
+      <!-- Right Section -->
+      <div class="right">
+        <h2 class="section-title">Project Description</h2>
+        <div class="project-meta">Solo Project • 2 Weeks • Focus: UI/UX, Form Handling</div>
+
+        <p class="project-description">
+          This project assigns you a "Game of Thrones" house based on your answers to the questions provided.
+        </p>
+
+        <ul class="project-points">
+          <li>Built with HTML, CSS, and Vanilla JavaScript</li>
+          <li>Form validation and localStorage</li>
+          <li>Responsive layouts</li>
+        </ul>
+
+        <div class="tech-stack">
+          <strong>Technologies:</strong> HTML, CSS, JavaScript
+        </div>
+
+        <blockquote>
+          “This project also challenged me to think about user interaction, not just the layout.”  
+          <small>— Developer's Note</small>
+        </blockquote>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loading Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Merriweather&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Merriweather', serif;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    .loading-screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+      background-position: center;
+      background-repeat: repeat;
+      transition: background-image 1s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+      animation: zoomFade 5s infinite;
+    }
+
+    @keyframes zoomFade {
+      0% {
+        opacity: 0.6;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      100% {
+        opacity: 0.6;
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 8px #000;
+    }
+
+    .caption {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 6px #000;
+    }
+
+    .timer {
+      font-size: 3rem;
+      font-weight: bold;
+      font-family: 'Cinzel', serif;
+      text-shadow: 2px 2px 10px #000;
+    }
+
+    audio {
+      display: none;
+    }
+
+   @media (max-width: 739px) {
+  .loading-screen {
+    padding: 2rem 1rem;
+    background-size: contain;
+    background-repeat: repeat;
+    background-position: center;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .caption {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .timer {
+    font-size: 2.2rem;
+    padding: 0.5rem;
+  }
+}
+
+
+@media (min-width: 740px) and (max-width: 1024px) {
+  .loading-screen {
+    padding: 3rem 2rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  h1 {
+    font-size: 3.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+  }
+
+  .caption {
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .timer {
+    font-size: 4rem;
+    padding: 0.6rem;
+  }
+}
+
+
+   
+
+  </style>
+</head>
+<body>
+  <div class="loading-screen" id="loadingScreen">
+    <h1 id="headline">The gods decide your Ride or Die…</h1>
+    <div class="caption">Summoning destiny…</div>
+    <div class="timer" id="countdown">45</div>
+  </div>
+
+  <audio id="bgMusic" src="theme.mp3"></audio>
+
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const userName = sessionStorage.getItem("userName") || "Your";
+
+  const headline = document.getElementById("headline");
+  headline.textContent = `The gods decide ${userName}'s Ride or Die…`;
+
+  // === Background Music Continuity ===
+  const music = document.getElementById("bgMusic");
+  music.volume = 1;
+ 
+  music.play().catch((e) => {
+    console.log("Autoplay blocked:", e);
+  });
+
+  // Save playback time every second
+  setInterval(() => {
+    localStorage.setItem("audioTime", music.currentTime);
+  }, 1000);
+
+  // Countdown logic
+  let countdown = 45;
+  const countdownEl = document.getElementById("countdown");
+  const countdownInterval = setInterval(() => {
+    countdown--;
+    countdownEl.textContent = countdown;
+    if (countdown <= 0) {
+      clearInterval(countdownInterval);
+      clearInterval(carouselInterval);
+      const nextURL = `reveal.html?${params.toString()}`;
+      window.location.href = nextURL;
+    }
+  }, 1000);
+
+  // Image carousel
+  const backgroundEl = document.getElementById("loadingScreen");
+
+  const imagePool = [
+       "mug_daenerys.jpg","mug_Aegon_II.png","mug_Visenyaa.jpg","mug_ned.jpg","mug_cregan.jpg","mug-cersei.jpg","mug_jaime.jpg","mug_robrha.jpg","mug_orys.jpg","mug_lyonel.jpg","mug_dor.jpg","Arianne.jpeg","mug_merie.jpg","mug_jory.jpg","mug_arthur.jpeg","mug_wyman.jpg","mug_theon.jpg","mug_steffon.jpg","roose.jpeg","mug_mag.jpg","mug_lf.jpg","mug_tal.webp","jon.jpeg","mug_selmy.jpg","mug_joer.jpg","mug_olenna.jpg","mug_aemond.jpeg","mug_jae.webp","mug_arryn.jpg","mug_ramsay.jpeg","mug_maegor.jpeg","mug_elissa.jpeg","mug_cole.webp","mug_qu.jpeg","mug_stone.jpg","mug_sandoq.jpg","sand.jpeg","mug_alys.png","mug_aeron.jpg","mug_saan.jpg"
+  
+  ];
+
+  function getRandomImages(pool, count) {
+    const shuffled = [...pool].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
+
+  const selectedImages = getRandomImages(imagePool, 9);
+  let currentImageIndex = 0;
+
+  function updateCarousel() {
+    if (currentImageIndex < selectedImages.length) {
+      backgroundEl.style.backgroundImage = `url('${selectedImages[currentImageIndex]}')`;
+      currentImageIndex++;
+    }
+  }
+
+  const carouselInterval = setInterval(updateCarousel, 5000);
+  updateCarousel();
+
+  // Store selection type and value
+  const selectionType = params.get("type");
+  const selectionValue = params.get("value");
+  if (selectionType && selectionValue) {
+    sessionStorage.setItem("selectionType", selectionType);
+    sessionStorage.setItem("selectionValue", selectionValue);
+  }
+
+  
+</script>
+
+</body>
+</html>
